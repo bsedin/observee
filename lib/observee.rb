@@ -1,5 +1,24 @@
-require "observee/version"
+require 'celluloid/current'
+require 'hitimes'
+require 'timers'
+
+require 'observee/version'
+require 'observee/logger'
+require 'observee/observer'
+require 'observee/config'
 
 module Observee
-  # Your code goes here...
+  class << self
+    def config
+      Observer::Config
+    end
+
+    def logger
+      Observer::Logger
+    end
+
+    def observer
+      Observer::Observer
+    end
+  end
 end
