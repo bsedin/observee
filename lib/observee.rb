@@ -6,6 +6,7 @@ require 'observee/version'
 require 'observee/logger'
 require 'observee/observer'
 require 'observee/config'
+require 'observee/daemon'
 
 module Observee
   class << self

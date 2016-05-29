@@ -9,27 +9,30 @@ module Observee
     class Daemon < ::Thor
       desc "status", "show daemon status"
       def status
-        puts "Daemon status"
+        raise RuntimeError, 'Not implemented yet'
       end
 
       desc "start", "start daemon"
+      option :c, banner: "<config_file>"
       def start
-        puts "Daemon start"
+        if options[:c]
+          ::Observee::Daemon.config_file = options[:c]
+        end
+        ::Observee::Daemon.run
       end
 
       desc "stop", "stop daemon"
       def stop
-        puts "Daemon stop"
+        ::Observee::Daemon.stop
       end
 
       desc "restart", "restart daemon"
+      option :c, banner: "<config_file>"
       def restart
-        puts "Daemon restart"
-      end
-
-      desc "reload", "reload daemon configuration"
-      def reload
-        puts "Daemon reload"
+        if options[:c]
+          ::Observee::Daemon.config_file = options[:c]
+        end
+        ::Observee::Daemon.restart
       end
     end
 

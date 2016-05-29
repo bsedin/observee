@@ -1,6 +1,6 @@
 module Observee
   class ObserverResult
-    attr_accessor :adapter, :alive, :duration, :adapter_data, :exception
+    attr_accessor :adapter, :state, :duration, :time, :adapter_data, :exception
 
     def initialize(params = {})
       params.each do |attr, value|
@@ -9,12 +9,13 @@ module Observee
     end
 
     def dead?
-      !alive
+      state != 'ok'
     end
 
     def to_h
-      { alive: alive,
-        duration: duration
+      { state: state,
+        duration: duration,
+        time: time
       }
     end
   end

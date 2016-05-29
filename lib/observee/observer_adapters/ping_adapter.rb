@@ -17,7 +17,8 @@ module Observee
 
           output = {
             adapter: :ping,
-            alive: false,
+            state: 'dead',
+            time: Time.now,
             adapter_data: {
               host: host,
               port: port,
@@ -26,7 +27,7 @@ module Observee
           }
 
           if ping.ping
-            output[:alive] = true
+            output[:state]    = 'ok'
             output[:duration] = ping.duration
           end
 

@@ -14,7 +14,8 @@ module Observee
 
           output = {
             adapter: :http,
-            alive: false,
+            state: 'dead',
+            time: Time.now,
             adapter_data: {
               proto: proto,
               host: host,
@@ -36,7 +37,7 @@ module Observee
                 output[:adapter_data][:code] = code = response.code.to_i
 
                 if success_codes.include?(code)
-                  output[:alive] = true
+                  output[:state]    = 'ok'
                   output[:duration] = duration
                 end
               end
