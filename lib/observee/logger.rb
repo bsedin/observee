@@ -1,6 +1,5 @@
 require_relative 'logger_adapters/logger_adapter'
 require_relative 'logger_adapters/influxdb_adapter'
-require 'pry'
 
 module Observee
   class Logger

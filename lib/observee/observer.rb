@@ -42,13 +42,8 @@ module Observee
     private
 
     def default_adapter
-      if logger_adapter = Config.config.logger_adapter
-        case logger_adapter
-        when Array
-          return load_adapter(logger_adapter.shift, logger_adapter.shift)
-        else
-          return load_adapter(logger_adapter)
-        end
+      if observer_adapter = Config.config.observer_adapter
+        return load_adapter(observer_adapter)
       end
       PingAdapters::PingAdapter.new
     end

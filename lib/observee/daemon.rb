@@ -1,6 +1,3 @@
-require 'yaml'
-
-
 module Observee
   class Daemon
     class << self
