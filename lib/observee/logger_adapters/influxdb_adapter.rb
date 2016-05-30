@@ -1,3 +1,5 @@
+require 'influxdb'
+
 module Observee
   module LoggerAdapters
     class InfluxdbAdapter

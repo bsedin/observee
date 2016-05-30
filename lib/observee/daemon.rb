@@ -5,14 +5,13 @@ module Observee
   class Daemon
     class << self
       def run
-        observers_config = YAML.load_file(config_file)
-        observers_config.each do |observer_data|
+        Observee.config.observers.each do |observer_data|
           observer_data = observer_data.map{ |k, v| [k.to_sym, v] }.to_h
           @supervisor = Observer.supervise(args: [observer_data])
         end
 
         timers = Timers::Group.new
-        timers.now_and_every(5) do
+        timers.now_and_every(Observee.config.interval || 5) do
           observers.each do |observer|
             observer.async.check_and_log
           end
@@ -39,13 +38,6 @@ module Observee
         run
       end
 
-      def config_file=(path)
-        @config_file = File.expand_path(path)
-      end
-
-      def config_file
-        @config_file || File.expand_path('~/.config/observee.yml')
-      end
 
       private
 

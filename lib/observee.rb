@@ -1,6 +1,7 @@
 require 'celluloid/current'
 require 'hitimes'
 require 'timers'
+require 'hashie'
 
 require 'observee/version'
 require 'observee/logger'
@@ -11,7 +12,7 @@ require 'observee/daemon'
 module Observee
   class << self
     def config
-      Observer::Config
+      Config.config
     end
 
     def logger

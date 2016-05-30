@@ -1,34 +1,26 @@
 module Observee
   class Config
-    def initialize
-    end
+    class << self
+      def reload!
+        @config = nil
+      end
 
-    def method_missing(*args)
-    end
+      def config
+        @config ||= ::Hashie::Mash.load(config_file)
+      end
 
-    private
+      def config_file=(path)
+        @config_file = File.expand_path(path)
+        @config = nil
+      end
 
-    def adapter=(name_or_adapter, opts = nil)
-      @adapter =
-        case name_or_adapter
-        when Symbol, String
-          load_adapter(name_or_adapter, opts)
-        else
-          name_or_adapter if name_or_adapter.respond_to?(:fetch)
-        end
-    end
+      def config_file
+        @config_file || File.expand_path('~/.config/observee.yml')
+      end
 
-    def adapter
-      @adapter || ConfigAdapters::FileAdapter
-    end
-
-    private
-
-    def load_adapter(adapter_name, opts = nil)
-      Object.const_get(
-        "Observee::ConfigAdapters::" \
-        "#{adapter_name.to_s.split('_').map{ |w| w.capitalize }.join}Adapter"
-      )
+      def method_missing(*args)
+        config.send(*args)
+      end
     end
   end
 end

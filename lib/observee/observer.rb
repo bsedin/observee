@@ -36,10 +36,22 @@ module Observee
     end
 
     def adapter
-      @adapter || ObserverAdapters::PingAdapter
+      @adapter ||= default_adapter
     end
 
     private
+
+    def default_adapter
+      if logger_adapter = Config.config.logger_adapter
+        case logger_adapter
+        when Array
+          return load_adapter(logger_adapter.shift, logger_adapter.shift)
+        else
+          return load_adapter(logger_adapter)
+        end
+      end
+      PingAdapters::PingAdapter.new
+    end
 
     def load_adapter(adapter_name, opts = nil)
       Object.const_get(

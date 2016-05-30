@@ -1,5 +1,6 @@
 require_relative 'logger_adapters/logger_adapter'
 require_relative 'logger_adapters/influxdb_adapter'
+require 'pry'
 
 module Observee
   class Logger
@@ -21,10 +22,22 @@ module Observee
       end
 
       def adapter
-        @adapter || LoggerAdapters::LoggerAdapter.new
+        @adapter ||= default_adapter
       end
 
       private
+
+      def default_adapter
+        if logger_adapter = Config.config.logger_adapter
+          case logger_adapter
+          when Array
+            return load_adapter(logger_adapter.shift, logger_adapter.shift)
+          else
+            return load_adapter(logger_adapter)
+          end
+        end
+        LoggerAdapters::LoggerAdapter.new
+      end
 
       def load_adapter(adapter_name, *args)
         Object.const_get(

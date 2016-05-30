@@ -16,7 +16,7 @@ module Observee
       option :c, banner: "<config_file>"
       def start
         if options[:c]
-          ::Observee::Daemon.config_file = options[:c]
+          ::Observee::Config.config_file = options[:c]
         end
         ::Observee::Daemon.run
       end
@@ -30,7 +30,7 @@ module Observee
       option :c, banner: "<config_file>"
       def restart
         if options[:c]
-          ::Observee::Daemon.config_file = options[:c]
+          ::Observee::Config.config_file = options[:c]
         end
         ::Observee::Daemon.restart
       end
